@@ -1,0 +1,64 @@
+POST http://localhost:3000/auth/register
+{
+  "name": "Ali",
+  "email": "ali@test.com",
+  "password": "123456"
+}
+
+
+{
+    "id": "695ec61e42cfe2952432e7c8",
+    "name": "Ali",
+    "email": "ali@test.com",
+    "role": "user"
+}
+
+POST http://localhost:3000/auth/login
+{
+  "email": "ali@test.com",
+  "password": "123456"
+}
+Résultat attendu:
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NWVjNjFlNDJjZmUyOTUyNDMyZTdjOCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzY3ODIzOTE1LCJleHAiOjE3Njc5MTAzMTV9.GQ4oIbaR0tqXRWj0A6MzKiwOqzz6ieSNP1XRG_5pn_8",
+  "user": {
+    "id": "...",
+    "name": "Ali",
+    "email": "ali@test.com",
+    "role": "user"
+  }
+}
+Sprint 3.4 – Lier voiture ↔ utilisateur (seller) à suivre
+
+{
+    "id": "6960261ba4119443e821e41b",
+    "name": "moh",
+    "email": "moh@test.com",
+    "role": "user"
+}
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NjAyNjFiYTQxMTk0NDNlODIxZTQxYiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzY3OTA5MDczLCJleHAiOjE3Njc5OTU0NzN9.ZoyfCxXjOEdf_TvmPo6tUqUL9J74KzLNG2NiB1MfUcE",
+    "user": {
+        "id": "6960261ba4119443e821e41b",
+        "name": "moh",
+        "email": "moh@test.com",
+        "role": "user"
+    }
+}
+à suivtre : Sprint 4.2 – Rôle ADMIN (override total)
+"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NWVjNjFlNDJjZmUyOTUyNDMyZTdjOCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzY3OTQ0NTc0LCJleHAiOjE3NjgwMzA5NzR9.we7IMzOSspAAefE8fqhVqVCUOfh2Tuz4Rbc6dtfwdnI",
+    "user": {
+        "id": "695ec61e42cfe2952432e7c8",
+        "name": "Ali",
+        "email": "ali@test.com",
+        "role": "user"
+    }
+
+moh :{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NjAyNjFiYTQxMTk0NDNlODIxZTQxYiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2Nzk0NDc4MCwiZXhwIjoxNzY4MDMxMTgwfQ.yV5WrlHcV4B3lSI-TH06am04FcvoYKiLpYXGHA3vn7Q",
+    "user": {
+        "id": "6960261ba4119443e821e41b",
+        "name": "moh",
+        "email": "moh@test.com",
+        "role": "admin"
+    }
