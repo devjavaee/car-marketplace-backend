@@ -1,5 +1,5 @@
 const Car = require('../models/Car');
-
+const cloudinary = require('../config/cloudinaryConfig');
 // Créer une voiture
 const createCar = async (req, res) => {
   try {
@@ -144,6 +144,115 @@ const deleteCar = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+const uploadCarImage = async (req, res) => {
+  try {
+    const car = await Car.findById(req.params.id);
+
+    if (!car) return res.status(404).json({ message: 'Voiture non trouvée' });
+
+    // Vérifier propriétaire ou admin
+    if (car.seller.toString() !== req.user.id && req.user.role !== 'admin') {
+      return res.status(403).json({ message: 'Accès interdit' });
+    }
+
+    if (!req.file) return res.status(400).json({ message: 'Image manquante' });
+
+    // Upload sur Cloudinary
+    const result = await cloudinary.uploader.upload_stream(
+      { folder: 'cars' },
+      async (error, result) => {
+        if (error) return res.status(500).json({ message: error.message });
+
+        // Ajouter image à la voiture
+        car.images = car.images || [];
+        car.images.push({ url: result.secure_url, public_id: result.public_id });
+
+        await car.save();
+
+        res.status(200).json({ car });
+      }
+    );
+
+    // Passer le buffer à Cloudinary
+    result.end(req.file.buffer);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+// upload iages 
+const uploadCarImages = async (req, res) => {
+  try {
+    const car = await Car.findById(req.params.id);
+
+    if (!car) {
+      return res.status(404).json({ message: 'Voiture non trouvée' });
+    }
+
+    if (car.seller.toString() !== req.user.id && req.user.role !== 'admin') {
+      return res.status(403).json({ message: 'Accès interdit' });
+    }
+
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ message: 'Aucune image envoyée' });
+    }
+
+    const uploadedImages = [];
+
+    for (const file of req.files) {
+      const result = await new Promise((resolve, reject) => {
+        cloudinary.uploader.upload_stream(
+          { folder: 'cars' },
+          (error, result) => {
+            if (error) reject(error);
+            else resolve(result);
+          }
+        ).end(file.buffer);
+      });
+
+      uploadedImages.push({
+        url: result.secure_url,
+        public_id: result.public_id,
+      });
+    }
+
+    car.images.push(...uploadedImages);
+    await car.save();
+
+    res.status(200).json({ images: car.images });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+// supp image 
+const deleteCarImage = async (req, res) => {
+  try {
+    const { id, imageId } = req.params;
+
+    const car = await Car.findById(id);
+    if (!car) {
+      return res.status(404).json({ message: 'Voiture non trouvée' });
+    }
+
+    if (car.seller.toString() !== req.user.id && req.user.role !== 'admin') {
+      return res.status(403).json({ message: 'Accès interdit' });
+    }
+
+    const image = car.images.id(imageId);
+    if (!image) {
+      return res.status(404).json({ message: 'Image non trouvée' });
+    }
+
+    await cloudinary.uploader.destroy(image.public_id);
+
+    image.deleteOne();
+    await car.save();
+
+    res.status(200).json({ message: 'Image supprimée', images: car.images });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 
 
 module.exports = {
@@ -152,4 +261,7 @@ module.exports = {
   getCarById,
   updateCar,
   deleteCar,
+  uploadCarImage,
+  uploadCarImages,
+  deleteCarImage,
 };
