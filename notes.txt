@@ -55,10 +55,36 @@ Sprint 3.4 – Lier voiture ↔ utilisateur (seller) à suivre
     }
 
 moh :{
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NjAyNjFiYTQxMTk0NDNlODIxZTQxYiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2Nzk0NDc4MCwiZXhwIjoxNzY4MDMxMTgwfQ.yV5WrlHcV4B3lSI-TH06am04FcvoYKiLpYXGHA3vn7Q",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NjAyNjFiYTQxMTk0NDNlODIxZTQxYiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2ODAzMjM4MSwiZXhwIjoxNzY4MTE4NzgxfQ.3v1Wkk53VvA8GgxoGvnhujLWHqSiwHkQbwPzJIbx5NY",
     "user": {
         "id": "6960261ba4119443e821e41b",
         "name": "moh",
         "email": "moh@test.com",
         "role": "admin"
     }
+
+    print 6.2 – Upload image Cloudinary (1 image) à suivre 
+{
+  "email": "farid@test.com",
+  "password": "345678"
+}
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NjIyYTg1NjY4MWZkNTM1MzQ3NGYyNyIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzY4MDQxMzYyLCJleHAiOjE3NjgxMjc3NjJ9.aiyZjGdcZ_a03ddUg9KNHQ3T_SLfA3UyOKn5SUo2bwU",
+    "user": {
+        "id": "69622a856681fd5353474f27",
+        "name": "Frid",
+        "email": "farid@test.com",
+        "role": "user"
+    }
+}
+créer voiture :
+POST http://localhost:3000/cars
+Bearer …….
+{
+  "brand": "BMW",
+  "model": "X5",
+  "year": 2021,
+  "price": 35000
+}
+http://localhost:5173/
+Toujours micro-sprint, objectif unique, zéro complexité inutile
