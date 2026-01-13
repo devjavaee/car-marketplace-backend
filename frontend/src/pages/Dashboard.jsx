@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import api from '../api/axios';
 
 function Dashboard() {
+  const [selectedFiles, setSelectedFiles] = useState({});
+
   const [cars, setCars] = useState([]);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -11,6 +13,33 @@ function Dashboard() {
   const [year, setYear] = useState('');
   const [price, setPrice] = useState('');
   const [editingCarId, setEditingCarId] = useState(null);
+  const handleFileChange = (e, carId) => {
+  const file = e.target.files[0];
+  setSelectedFiles((prev) => ({ ...prev, [carId]: file }));
+};
+// 
+const handleUpload = async (carId) => {
+  const file = selectedFiles[carId];
+  if (!file) return alert('Veuillez sélectionner un fichier');
+
+  const formData = new FormData();
+  formData.append('image', file);
+
+  try {
+    await api.post(`/cars/${carId}/images`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+
+    alert('Image uploadée !');
+
+    fetchMyCars();           // refresh liste
+    setSelectedFiles((prev) => ({ ...prev, [carId]: null })); // reset input
+  } catch (error) {
+    console.error(error);
+    alert('Erreur lors de l’upload');
+  }
+};
+//
 
   const fetchCars = async () => {
     try {
@@ -24,6 +53,14 @@ function Dashboard() {
   useEffect(() => {
     fetchCars();
   }, []);
+   // reset
+   const resetForm = () => {
+  setBrand('');
+  setModel('');
+  setYear('');
+  setPrice('');
+  setEditingCarId(null);
+};
 
  const handleSubmit = async (e) => {
   e.preventDefault();
@@ -50,14 +87,9 @@ function Dashboard() {
       });
       setSuccess('Voiture ajoutée');
     }
+     resetForm(); 
 
-    setBrand('');
-    setModel('');
-    setYear('');
-    setPrice('');
-    setEditingCarId(null);
-
-    fetchCars();
+    fetchCars(); // refresh la liste
   } catch (err) {
     setError(err.response?.data?.message || 'Erreur');
   }
@@ -77,6 +109,21 @@ const handleDelete = async (id) => {
     alert(err.response?.data?.message || 'Erreur suppression');
   }
 };
+// supp image
+const handleDeleteImage = async (carId, imageId) => {
+  const confirmDelete = window.confirm('Supprimer cette image ?');
+  if (!confirmDelete) return;
+
+  try {
+    await api.delete(`/cars/${carId}/images/${imageId}`);
+
+    alert('Image supprimée');
+    fetchMyCars(); // refresh
+  } catch (error) {
+    console.error(error);
+    alert('Erreur lors de la suppression');
+  }
+};
 
 
 
@@ -94,11 +141,14 @@ const handleDelete = async (id) => {
         <input placeholder="Modèle" value={model} onChange={(e) => setModel(e.target.value)} required />
         <input type="number" placeholder="Année" value={year} onChange={(e) => setYear(e.target.value)} required />
         <input type="number" placeholder="Prix" value={price} onChange={(e) => setPrice(e.target.value)} required />
-        <button type="submit">Ajouter</button>
         <button type="submit">
         {editingCarId ? 'Mettre à jour' : 'Ajouter'}
         </button>
-
+          {editingCarId && (
+        <button type="button" onClick={resetForm}>
+        Annuler
+        </button>
+         )}
       </form>
 
       <h3>Mes voitures</h3>
@@ -109,7 +159,37 @@ const handleDelete = async (id) => {
         <ul>
           {cars.map((car) => (
             <li key={car._id}>
-              {car.brand} {car.model} - {car.year} - {car.price} €
+              <p>
+            {car.brand} {car.model} – {car.year} – {car.price} €
+            </p>
+              {Array.isArray(car.images) && car.images.length > 0 && (
+             <div style={{ display: 'flex', gap: '10px' }}>
+               {car.images.map((img) => (
+                <div key={img._id} style={{ textAlign: 'center' }}>
+                    <img
+                        src={img.url}
+                    alt={`${car.brand} ${car.model}`}
+                    width="120"
+                    />
+                    <button
+                    onClick={() => handleDeleteImage(car._id, img._id)}
+                    style={{ display: 'block', marginTop: '4px', color: 'red' }}
+                    >
+                    Supprimer
+                    </button>
+                </div>
+              ))}
+            </div>
+              )}
+              {editingCarId === null && (
+                <div style={{ marginTop: '5px' }}>
+                    <input
+                    type="file"
+                    onChange={(e) => handleFileChange(e, car._id)}
+                    />
+                    <button onClick={() => handleUpload(car._id)}>Upload</button>
+                </div>
+                )}
               <button
                 onClick={() => {
                 setEditingCarId(car._id);
@@ -126,7 +206,7 @@ const handleDelete = async (id) => {
                     style={{ marginLeft: '10px', color: 'red' }}
                     >
                     Supprimer
-                    </button>
+                </button>
 
             </li>
             

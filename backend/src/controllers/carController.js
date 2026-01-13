@@ -26,7 +26,7 @@ const getCars = asyncHandler(async (req, res) => {
   const filters = {};
 
   if (req.query.brand) {
-    filters.brand = req.query.brand;
+    filters.brand = { $regex: req.query.brand, $options: 'i' };
   }
 
   if (req.query.year) {

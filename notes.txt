@@ -88,3 +88,14 @@ Bearer …….
 }
 http://localhost:5173/
 Toujours micro-sprint, objectif unique, zéro complexité inutile
+On garde exactement la même méthode :
+
+micro-sprints
+
+objectif unique
+
+validation stricte
+
+pas de saut d’étape
+
+http://localhost:5173/dashboard
