@@ -32,7 +32,7 @@ const handleUpload = async (carId) => {
 
     alert('Image uploadée !');
 
-    fetchMyCars();           // refresh liste
+    fetchCars();           // refresh liste
     setSelectedFiles((prev) => ({ ...prev, [carId]: null })); // reset input
   } catch (error) {
     console.error(error);
@@ -41,14 +41,18 @@ const handleUpload = async (carId) => {
 };
 //
 
-  const fetchCars = async () => {
-    try {
-      const res = await api.get('/cars');
-      setCars(res.data.cars);
-    } catch (err) {
-      setError('Impossible de charger les voitures');
-    }
-  };
+ const fetchCars = async () => {
+  try {
+    const res = await api.get('/cars/my');
+
+    console.log('API response:', res.data); // debug temporaire
+
+    setCars(res.data.cars); // ✅ OBLIGATOIRE
+  } catch (err) {
+    setError('Impossible de charger les voitures');
+  }
+};
+
 
   useEffect(() => {
     fetchCars();
@@ -118,7 +122,7 @@ const handleDeleteImage = async (carId, imageId) => {
     await api.delete(`/cars/${carId}/images/${imageId}`);
 
     alert('Image supprimée');
-    fetchMyCars(); // refresh
+    fetchCars(); // refresh
   } catch (error) {
     console.error(error);
     alert('Erreur lors de la suppression');
@@ -153,7 +157,7 @@ const handleDeleteImage = async (carId, imageId) => {
 
       <h3>Mes voitures</h3>
 
-      {cars.length === 0 ? (
+      {Array.isArray(cars) && cars.length === 0 ? (
         <p>Aucune voiture</p>
       ) : (
         <ul>

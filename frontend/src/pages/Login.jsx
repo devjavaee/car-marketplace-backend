@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import api from '../api/axios';
+import { useNavigate } from 'react-router-dom';
+
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,7 +25,9 @@ function Login() {
       console.log('TOKEN:', res.data.token);
       // 🔐 Sauvegarde du token
       localStorage.setItem('token', res.data.token);
-      setSuccess('Connexion réussie');
+      //setSuccess('Connexion réussie');
+      
+      navigate('/dashboard');
     } catch (err) {
       setError(err.response?.data?.message || 'Erreur serveur');
     }

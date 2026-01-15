@@ -99,3 +99,5 @@ validation stricte
 pas de saut d’étape
 
 http://localhost:5173/dashboard
+le mot de passe que vous venu d'utiliser a été détecter lors d'une violation de données. Le géstionnaire 
+de mots de passes de google vous recomande de le modifier immédiatement.

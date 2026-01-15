@@ -72,6 +72,15 @@ const getCarById = asyncHandler(async (req, res) => {
 
   res.status(200).json(car);
 });
+// Mes voitures (utilisateur connecté)
+const getMyCars = async (req, res) => {
+  try {
+    const cars = await Car.find({ seller: req.user.id });
+    res.status(200).json({ cars });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 // ==========================
 // Modifier une voiture
@@ -240,6 +249,7 @@ module.exports = {
   createCar,
   getCars,
   getCarById,
+  getMyCars,
   updateCar,
   deleteCar,
   uploadCarImage,

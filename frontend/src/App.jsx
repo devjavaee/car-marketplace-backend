@@ -5,15 +5,32 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import PublicCars from './pages/PublicCars';
 import ProtectedRoute from './components/ProtectedRoute';
+import PublicRoute from './components/PublicRoute';
 
 function App() {
   return (
     <BrowserRouter>
       <Navbar />
       <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        
         <Route path="/cars" element={<PublicCars />} />
+        <Route
+            path="/login"
+            element={
+                <PublicRoute>
+                <Login />
+                </PublicRoute>
+            }
+        />
+
+        <Route
+            path="/register"
+            element={
+                <PublicRoute>
+                <Register />
+                </PublicRoute>
+            }
+        />
 
         <Route
           path="/dashboard"

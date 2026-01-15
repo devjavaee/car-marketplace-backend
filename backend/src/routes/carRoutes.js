@@ -5,6 +5,7 @@ const upload = require('../middlewares/uploadMiddleware');
 const {
   createCar,
   getCars,
+  getMyCars,
   getCarById,
   updateCar,
   deleteCar,
@@ -16,6 +17,7 @@ const {
 
 router.post('/', auth, createCar);
 router.get('/', getCars);
+router.get('/my', auth, getMyCars);
 router.get('/:id', getCarById);
 router.put('/:id', auth, updateCar);
 router.delete('/:id', auth, deleteCar);
