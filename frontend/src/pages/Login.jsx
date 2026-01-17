@@ -1,38 +1,42 @@
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
+
 import { useState } from 'react';
 import api from '../api/axios';
 import { useNavigate } from 'react-router-dom';
 
 
 function Login() {
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-    setSuccess('');
 
-    try {
-      const res = await api.post('/auth/login', {
-        email,
-        password,
-      });
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError('');
+  setLoading(true);
 
-      // Pour l’instant : juste afficher le token
-      console.log('TOKEN:', res.data.token);
-      // 🔐 Sauvegarde du token
-      localStorage.setItem('token', res.data.token);
-      //setSuccess('Connexion réussie');
-      
-      navigate('/dashboard');
-    } catch (err) {
-      setError(err.response?.data?.message || 'Erreur serveur');
-    }
-  };
-
+  try {
+  const res = await api.post('/auth/login', { email, password });
+  login(res.data.token);
+  setError(''); // 👈 important
+  navigate('/dashboard');
+} catch (err) {
+  
+  if (err.response?.status === 401) {
+    setError('Identifiant ou mot de passe incorrect');
+  } else {
+    setError('Erreur serveur');
+  }
+} finally {
+  setLoading(false);
+}
+};
   return (
     <div>
       <h2>Login</h2>
@@ -61,7 +65,10 @@ function Login() {
           />
         </div>
 
-        <button type="submit">Login</button>
+        <button type="submit" disabled={loading}>
+            {loading ? 'Connexion...' : 'Login'}
+        </button>
+
       </form>
     </div>
   );

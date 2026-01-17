@@ -1,25 +1,23 @@
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 
-function Navbar() {
+const Navbar = () => {
+  const { isAuthenticated, logout } = useContext(AuthContext);
   const navigate = useNavigate();
-  const isAuth = !!localStorage.getItem('token');
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    navigate('/login');
+    logout();              // supprime token + user
+    navigate('/login');    // 🔁 redirection immédiate
   };
 
   return (
-    <nav style={{ padding: '10px', borderBottom: '1px solid #ccc' }}>
-      <Link to="/cars" style={{ marginRight: '10px' }}>
-        Voitures
-      </Link>
+    <nav>
+      <Link to="/cars">Voitures</Link>
 
-      {isAuth ? (
+      {isAuthenticated ? (
         <>
-          <Link to="/dashboard" style={{ marginRight: '10px' }}>
-            Dashboard
-          </Link>
+          <Link to="/dashboard">Dashboard</Link>
           <button onClick={handleLogout}>Logout</button>
         </>
       ) : (
@@ -27,6 +25,6 @@ function Navbar() {
       )}
     </nav>
   );
-}
+};
 
 export default Navbar;
