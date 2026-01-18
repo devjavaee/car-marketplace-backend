@@ -5,9 +5,6 @@ import CarList from '../components/CarList';
 
 function Dashboard() {
   const [cars, setCars] = useState([]);
-  const [loading, setLoading] = useState(true);        // ✅ NEW
-  const [submitting, setSubmitting] = useState(false); // ✅ NEW
-
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
@@ -19,15 +16,13 @@ function Dashboard() {
 
   const [selectedFiles, setSelectedFiles] = useState({});
 
+  // 🔹 Récupération voitures utilisateur
   const fetchCars = async () => {
     try {
-      setLoading(true);
       const res = await api.get('/cars/my');
       setCars(res.data.cars);
     } catch (err) {
       setError('Impossible de charger les voitures');
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -35,6 +30,7 @@ function Dashboard() {
     fetchCars();
   }, []);
 
+  // 🔹 Reset form
   const resetForm = () => {
     setBrand('');
     setModel('');
@@ -43,11 +39,9 @@ function Dashboard() {
     setEditingCarId(null);
   };
 
+  // 🔹 Ajouter / Modifier voiture
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (submitting) return;
-
-    setSubmitting(true);
     setError('');
     setSuccess('');
 
@@ -74,11 +68,10 @@ function Dashboard() {
       fetchCars();
     } catch (err) {
       setError(err.response?.data?.message || 'Erreur');
-    } finally {
-      setSubmitting(false);
     }
   };
 
+  // 🔹 Préparer édition
   const handleEdit = (car) => {
     setEditingCarId(car._id);
     setBrand(car.brand);
@@ -87,12 +80,14 @@ function Dashboard() {
     setPrice(car.price);
   };
 
+  // 🔹 Supprimer voiture
   const handleDelete = async (id) => {
     if (!window.confirm('Supprimer cette voiture ?')) return;
     await api.delete(`/cars/${id}`);
     fetchCars();
   };
 
+  // 🔹 Gestion upload image
   const handleFileChange = (e, carId) => {
     const file = e.target.files[0];
     setSelectedFiles((prev) => ({ ...prev, [carId]: file }));
@@ -105,32 +100,40 @@ function Dashboard() {
     const formData = new FormData();
     formData.append('image', file);
 
-    await api.post(`/cars/${carId}/images`, formData);
-    fetchCars();
+    try {
+      await api.post(`/cars/${carId}/images`, formData);
+      fetchCars();
+      setSelectedFiles((prev) => ({ ...prev, [carId]: null }));
+    } catch (err) {
+      alert('Erreur lors de l’upload');
+    }
   };
 
   const handleDeleteImage = async (carId, imageId) => {
     if (!window.confirm('Supprimer cette image ?')) return;
-    await api.delete(`/cars/${carId}/images/${imageId}`);
-    fetchCars();
+
+    try {
+      await api.delete(`/cars/${carId}/images/${imageId}`);
+      fetchCars();
+    } catch (err) {
+      alert('Erreur lors de la suppression');
+    }
   };
 
   return (
-    <div>
+    <div className="container">
       <h2>Mon Dashboard</h2>
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {success && <p style={{ color: 'green' }}>{success}</p>}
 
       <h3>{editingCarId ? 'Modifier la voiture' : 'Ajouter une voiture'}</h3>
-
       <CarForm
         brand={brand}
         model={model}
         year={year}
         price={price}
         editingCarId={editingCarId}
-        submitting={submitting}     // ✅ NEW (si tu veux désactiver bouton)
         setBrand={setBrand}
         setModel={setModel}
         setYear={setYear}
@@ -140,20 +143,15 @@ function Dashboard() {
       />
 
       <h3>Mes voitures</h3>
-
-      {loading ? (
-        <p>Chargement...</p>
-      ) : (
-        <CarList
-          cars={cars}
-          editingCarId={editingCarId}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-          onUpload={handleUpload}
-          onFileChange={handleFileChange}
-          onDeleteImage={handleDeleteImage}
-        />
-      )}
+      <CarList
+        cars={cars}
+        editingCarId={editingCarId}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+        onUpload={handleUpload}
+        onFileChange={handleFileChange}
+        onDeleteImage={handleDeleteImage}
+      />
     </div>
   );
 }

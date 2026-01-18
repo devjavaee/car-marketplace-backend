@@ -1,48 +1,44 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
-
-import { useState } from 'react';
 import api from '../api/axios';
 import { useNavigate } from 'react-router-dom';
 
-
 function Login() {
-  const [loading, setLoading] = useState(false);
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
-  const navigate = useNavigate();
-  const { login } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
-  setError('');
-  setLoading(true);
+    try {
+      const res = await api.post('/auth/login', { email, password });
+      login(res.data.token);
 
-  try {
-  const res = await api.post('/auth/login', { email, password });
-  login(res.data.token);
-  setError(''); // 👈 important
-  navigate('/dashboard');
-} catch (err) {
-  
-  if (err.response?.status === 401) {
-    setError('Identifiant ou mot de passe incorrect');
-  } else {
-    setError('Erreur serveur');
-  }
-} finally {
-  setLoading(false);
-}
-};
+      // Redirection immédiate après login
+      navigate('/dashboard');
+    } catch (err) {
+      if (err.response?.status === 401) {
+        setError('Identifiant ou mot de passe incorrect');
+      } else {
+        setError('Erreur serveur');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div>
       <h2>Login</h2>
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      {success && <p style={{ color: 'green' }}>{success}</p>}
 
       <form onSubmit={handleSubmit}>
         <div>
@@ -52,6 +48,7 @@ function Login() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            disabled={loading}
           />
         </div>
 
@@ -62,13 +59,13 @@ function Login() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            disabled={loading}
           />
         </div>
 
         <button type="submit" disabled={loading}>
-            {loading ? 'Connexion...' : 'Login'}
+          {loading ? 'Connexion...' : 'Login'}
         </button>
-
       </form>
     </div>
   );

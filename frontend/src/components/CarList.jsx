@@ -1,3 +1,6 @@
+import React from 'react';
+import styles from './CarList.module.css';
+
 const CarList = ({
   cars,
   editingCarId,
@@ -5,32 +8,32 @@ const CarList = ({
   onDelete,
   onUpload,
   onFileChange,
-  onDeleteImage,
+  onDeleteImage
 }) => {
   if (!Array.isArray(cars) || cars.length === 0) {
     return <p>Aucune voiture..</p>;
   }
 
   return (
-    <ul>
+    <div className={styles.list}>
       {cars.map((car) => (
-        <li key={car._id}>
+        <div key={car._id} className={styles.carCard}>
           <p>
             {car.brand} {car.model} – {car.year} – {car.price} €
           </p>
 
           {Array.isArray(car.images) && car.images.length > 0 && (
-            <div style={{ display: 'flex', gap: '10px' }}>
+            <div className={styles.carImages}>
               {car.images.map((img) => (
-                <div key={img._id}>
+                <div key={img._id} className={styles.carImageContainer}>
                   <img
                     src={img.url}
                     alt={`${car.brand} ${car.model}`}
-                    width="120"
+                    className={styles.carImage}
                   />
                   <button
+                    className={styles.danger}
                     onClick={() => onDeleteImage(car._id, img._id)}
-                    style={{ color: 'red' }}
                   >
                     Supprimer
                   </button>
@@ -40,26 +43,22 @@ const CarList = ({
           )}
 
           {editingCarId === null && (
-            <div>
+            <div className={styles.uploadSection}>
               <input
                 type="file"
                 onChange={(e) => onFileChange(e, car._id)}
               />
-              <button onClick={() => onUpload(car._id)}>Upload</button>
+              <button className={styles.primary} onClick={() => onUpload(car._id)}>Upload</button>
             </div>
           )}
 
-          <button onClick={() => onEdit(car)}>Modifier</button>
-
-          <button
-            onClick={() => onDelete(car._id)}
-            style={{ marginLeft: '10px', color: 'red' }}
-          >
-            Supprimer
-          </button>
-        </li>
+          <div className={styles.actions}>
+            <button className={styles.primary} onClick={() => onEdit(car)}>Modifier</button>
+            <button className={styles.danger} onClick={() => onDelete(car._id)}>Supprimer</button>
+          </div>
+        </div>
       ))}
-    </ul>
+    </div>
   );
 };
 

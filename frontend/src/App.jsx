@@ -6,30 +6,35 @@ import Dashboard from './pages/Dashboard';
 import PublicCars from './pages/PublicCars';
 import ProtectedRoute from './components/ProtectedRoute';
 import PublicRoute from './components/PublicRoute';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
     <BrowserRouter>
       <Navbar />
       <Routes>
-        
+
+        {/* ✅ Route par défaut */}
+        <Route path="/" element={<PublicCars />} />
+
         <Route path="/cars" element={<PublicCars />} />
+
         <Route
-            path="/login"
-            element={
-                <PublicRoute>
-                <Login />
-                </PublicRoute>
-            }
+          path="/login"
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
         />
 
         <Route
-            path="/register"
-            element={
-                <PublicRoute>
-                <Register />
-                </PublicRoute>
-            }
+          path="/register"
+          element={
+            <PublicRoute>
+              <Register />
+            </PublicRoute>
+          }
         />
 
         <Route
@@ -40,6 +45,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

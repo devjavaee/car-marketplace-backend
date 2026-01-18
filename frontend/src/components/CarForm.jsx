@@ -1,3 +1,6 @@
+import React from 'react';
+import styles from './CarForm.module.css';
+
 const CarForm = ({
   brand,
   model,
@@ -9,23 +12,26 @@ const CarForm = ({
   setYear,
   setPrice,
   onSubmit,
-  onCancel,
+  onCancel
 }) => {
   return (
-    <form onSubmit={onSubmit}>
+    <form className={styles.form} onSubmit={onSubmit}>
       <input
+        className={styles.input}
         placeholder="Marque"
         value={brand}
         onChange={(e) => setBrand(e.target.value)}
         required
       />
       <input
+        className={styles.input}
         placeholder="Modèle"
         value={model}
         onChange={(e) => setModel(e.target.value)}
         required
       />
       <input
+        className={styles.input}
         type="number"
         placeholder="Année"
         value={year}
@@ -33,6 +39,7 @@ const CarForm = ({
         required
       />
       <input
+        className={styles.input}
         type="number"
         placeholder="Prix"
         value={price}
@@ -40,15 +47,21 @@ const CarForm = ({
         required
       />
 
-      <button type="submit">
-        {editingCarId ? 'Mettre à jour' : 'Ajouter'}
-      </button>
-
-      {editingCarId && (
-        <button type="button" onClick={onCancel}>
-          Annuler
+      <div className={styles.buttonGroup}>
+        <button type="submit" className={`${styles.button} ${styles.primary}`}>
+          {editingCarId ? 'Mettre à jour' : 'Ajouter'}
         </button>
-      )}
+
+        {editingCarId && (
+          <button
+            type="button"
+            className={`${styles.button} ${styles.secondary}`}
+            onClick={onCancel}
+          >
+            Annuler
+          </button>
+        )}
+      </div>
     </form>
   );
 };

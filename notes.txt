@@ -104,3 +104,5 @@ npm run dev
 
 Appliquer uniquement les modifs du Sprint
 stable, propre et pro
+
+Voici l’ordre que je te propose (logique, pro, sans casser l’existant)

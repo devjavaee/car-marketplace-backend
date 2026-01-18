@@ -1,0 +1,31 @@
+.nav {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  padding: 12px 20px;
+}
+
+.link {
+  text-decoration: none;
+  color: white; /* hérite de ton nav global */
+  font-weight: normal;
+  transition: all 0.2s;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.active {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0;
+}
