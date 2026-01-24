@@ -7,6 +7,7 @@ import PublicCars from './pages/PublicCars';
 import ProtectedRoute from './components/ProtectedRoute';
 import PublicRoute from './components/PublicRoute';
 import CarDetail from './pages/CarDetail';
+import MyMessages from './pages/MyMessages';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/cars/:id" element={<CarDetail />} />
+        <Route path="/messages" element={<MyMessages />} />
 
       </Routes>
     </BrowserRouter>

@@ -119,3 +119,4 @@ Créer un mot de passe d’application
 Ne jamais utiliser ton vrai mot de passe Gmail
 
 👉 Je te guiderai si tu veux cette option plus tard.
+en mode entreprise : micro-sprints, objectif unique, zéro régression, validation stricte.

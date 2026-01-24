@@ -12,12 +12,13 @@ const Navbar = () => {
   };
 
   return (
-    <nav>
+    <nav style={{ display: 'flex', gap: '15px', padding: '10px', borderBottom: '1px solid #ccc' }}>
       <Link to="/cars">Voitures</Link>
 
       {isAuthenticated ? (
         <>
           <Link to="/dashboard">Dashboard</Link>
+          <Link to="/messages">Mes Messages</Link> {/* Nouveau lien */}
           <button onClick={handleLogout}>Logout</button>
         </>
       ) : (
