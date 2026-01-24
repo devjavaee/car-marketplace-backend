@@ -102,7 +102,20 @@ http://localhost:5173/dashboard
 
 npm run dev
 
-Appliquer uniquement les modifs du Sprint
-stable, propre et pro
 
 Voici l’ordre que je te propose (logique, pro, sans casser l’existant)
+OneDrive\Bureau\SeFormer\maitriseMumerique\car-marketplace\backend>
+http://localhost:5173/
+à suivre ..recommencer Sprint 19.1
+
+https://mailtrap.io/inboxes/4329818/messages ; domaine devjavaee16.com
+moh.....gmail.com
+Obligatoire :
+
+Activer la double authentification
+
+Créer un mot de passe d’application
+
+Ne jamais utiliser ton vrai mot de passe Gmail
+
+👉 Je te guiderai si tu veux cette option plus tard.

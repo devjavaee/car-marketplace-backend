@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middlewares/authMiddleware');
 const upload = require('../middlewares/uploadMiddleware');
+const { contactSeller } = require('../controllers/contactController');
+
 const {
   createCar,
   getCars,
@@ -18,6 +20,8 @@ const {
 router.post('/', auth, createCar);
 router.get('/', getCars);
 router.get('/my', auth, getMyCars);
+// 📩 Contacter le vendeur (auth requis)
+router.post('/:id/contact', auth, contactSeller);
 router.get('/:id', getCarById);
 router.put('/:id', auth, updateCar);
 router.delete('/:id', auth, deleteCar);

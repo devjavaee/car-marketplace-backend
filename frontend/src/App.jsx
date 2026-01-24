@@ -6,46 +6,22 @@ import Dashboard from './pages/Dashboard';
 import PublicCars from './pages/PublicCars';
 import ProtectedRoute from './components/ProtectedRoute';
 import PublicRoute from './components/PublicRoute';
-import NotFound from './pages/NotFound';
+import CarDetail from './pages/CarDetail';
+
 
 function App() {
   return (
     <BrowserRouter>
       <Navbar />
       <Routes>
-
-        {/* ✅ Route par défaut */}
         <Route path="/" element={<PublicCars />} />
 
         <Route path="/cars" element={<PublicCars />} />
+        <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+        <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+        <Route path="/cars/:id" element={<CarDetail />} />
 
-        <Route
-          path="/login"
-          element={
-            <PublicRoute>
-              <Login />
-            </PublicRoute>
-          }
-        />
-
-        <Route
-          path="/register"
-          element={
-            <PublicRoute>
-              <Register />
-            </PublicRoute>
-          }
-        />
-
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

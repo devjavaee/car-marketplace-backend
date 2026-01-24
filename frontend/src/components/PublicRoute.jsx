@@ -1,13 +1,13 @@
+import { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 
 const PublicRoute = ({ children }) => {
-  const token = localStorage.getItem('token');
+  const { isAuthenticated, loading } = useContext(AuthContext);
 
-  if (token) {
-    return <Navigate to="/dashboard" replace />;
-  }
+  if (loading) return <p>Chargement...</p>;
 
-  return children;
+  return isAuthenticated ? <Navigate to="/dashboard" /> : children;
 };
 
 export default PublicRoute;
