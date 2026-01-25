@@ -17,4 +17,58 @@ const getMyMessages = async (req, res) => {
   }
 };
 
-module.exports = { getMyMessages };
+
+const deleteMessage = async (req, res) => {
+  try {
+    const messageId = req.params.id;
+
+    const message = await Message.findById(messageId);
+
+    if (!message) {
+      return res.status(404).json({ message: 'Message introuvable' });
+    }
+
+    // 🔐 Sécurité : seul le vendeur destinataire peut supprimer
+    if (message.seller.toString() !== req.user.id) {
+      return res.status(403).json({ message: 'Action non autorisée' });
+    }
+
+    await message.deleteOne();
+
+    res.status(200).json({ message: 'Message supprimé avec succès' });
+  } catch (error) {
+    console.error('DELETE MESSAGE ERROR:', error);
+    res.status(500).json({ message: 'Erreur serveur' });
+  }
+};
+const markMessageAsRead = async (req, res) => {
+  try {
+    const messageId = req.params.id;
+
+    const message = await Message.findById(messageId);
+
+    if (!message) {
+      return res.status(404).json({ message: 'Message introuvable' });
+    }
+
+    // 🔐 sécurité : seul le vendeur peut marquer comme lu
+    if (message.seller.toString() !== req.user.id) {
+      return res.status(403).json({ message: 'Action non autorisée' });
+    }
+
+    message.isRead = true;
+    await message.save();
+
+    res.status(200).json({ message: 'Message marqué comme lu' });
+  } catch (error) {
+    console.error('MARK READ ERROR:', error);
+    res.status(500).json({ message: 'Erreur serveur' });
+  }
+};
+
+
+module.exports = {
+  getMyMessages,
+  deleteMessage,
+  markMessageAsRead,
+};

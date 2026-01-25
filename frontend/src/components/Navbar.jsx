@@ -3,7 +3,7 @@ import { AuthContext } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
-  const { isAuthenticated, logout } = useContext(AuthContext);
+  const { isAuthenticated, logout, unreadCount } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -18,7 +18,25 @@ const Navbar = () => {
       {isAuthenticated ? (
         <>
           <Link to="/dashboard">Dashboard</Link>
-          <Link to="/messages">Mes Messages</Link> {/* Nouveau lien */}
+          <Link to="/messages" style={{ position: 'relative' }}>
+            Messages
+            {unreadCount > 0 && (
+              <span
+                style={{
+                  position: 'absolute',
+                  top: '-5px',
+                  right: '-10px',
+                  background: 'red',
+                  color: 'white',
+                  borderRadius: '50%',
+                  padding: '2px 6px',
+                  fontSize: '12px',
+                }}
+              >
+                {unreadCount}
+              </span>
+            )}
+          </Link>
           <button onClick={handleLogout}>Logout</button>
         </>
       ) : (

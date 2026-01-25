@@ -120,3 +120,5 @@ Ne jamais utiliser ton vrai mot de passe Gmail
 
 👉 Je te guiderai si tu veux cette option plus tard.
 en mode entreprise : micro-sprints, objectif unique, zéro régression, validation stricte.
+
+Critères de validation STRICTS -  Micro-Sprint 21.5.2 validé
