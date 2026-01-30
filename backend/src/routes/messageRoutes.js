@@ -15,7 +15,9 @@ router.patch('/:id/read', auth, markMessageAsRead);
 router.post('/:id/reply', auth, replyToMessage);
 // Supprimer un message reçu
 router.delete('/:id', auth, deleteMessage);
-router.get('/sent', auth, getMySentMessages);
+router.get('/my-sent', auth, getMySentMessages);
+//router.get('/sent', protect, getMySentMessages);
+//router.get('/my-sent', protect, getMySentMessages); // acheteur
 
 
 module.exports = router;

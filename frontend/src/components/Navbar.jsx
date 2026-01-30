@@ -37,6 +37,8 @@ const Navbar = () => {
               </span>
             )}
           </Link>
+          <Link to="/my-sent-messages">Mes messages envoyés</Link>
+
           <button onClick={handleLogout}>Logout</button>
         </>
       ) : (

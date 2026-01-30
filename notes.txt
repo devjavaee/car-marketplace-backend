@@ -28,23 +28,8 @@ Résultat attendu:
     "role": "user"
   }
 }
-Sprint 3.4 – Lier voiture ↔ utilisateur (seller) à suivre
 
-{
-    "id": "6960261ba4119443e821e41b",
-    "name": "moh",
-    "email": "moh@test.com",
-    "role": "user"
-}
-{
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NjAyNjFiYTQxMTk0NDNlODIxZTQxYiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzY3OTA5MDczLCJleHAiOjE3Njc5OTU0NzN9.ZoyfCxXjOEdf_TvmPo6tUqUL9J74KzLNG2NiB1MfUcE",
-    "user": {
-        "id": "6960261ba4119443e821e41b",
-        "name": "moh",
-        "email": "moh@test.com",
-        "role": "user"
-    }
-}
+
 à suivtre : Sprint 4.2 – Rôle ADMIN (override total)
 "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NWVjNjFlNDJjZmUyOTUyNDMyZTdjOCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzY3OTQ0NTc0LCJleHAiOjE3NjgwMzA5NzR9.we7IMzOSspAAefE8fqhVqVCUOfh2Tuz4Rbc6dtfwdnI",
     "user": {
@@ -54,28 +39,14 @@ Sprint 3.4 – Lier voiture ↔ utilisateur (seller) à suivre
         "role": "user"
     }
 
-moh :{
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NjAyNjFiYTQxMTk0NDNlODIxZTQxYiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2ODAzMjM4MSwiZXhwIjoxNzY4MTE4NzgxfQ.3v1Wkk53VvA8GgxoGvnhujLWHqSiwHkQbwPzJIbx5NY",
-    "user": {
-        "id": "6960261ba4119443e821e41b",
-        "name": "moh",
-        "email": "moh@test.com",
-        "role": "admin"
-    }
+
 
     print 6.2 – Upload image Cloudinary (1 image) à suivre 
 {
   "email": "farid@test.com",
   "password": "345678"
 }
-{
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NjIyYTg1NjY4MWZkNTM1MzQ3NGYyNyIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzY4MDQxMzYyLCJleHAiOjE3NjgxMjc3NjJ9.aiyZjGdcZ_a03ddUg9KNHQ3T_SLfA3UyOKn5SUo2bwU",
-    "user": {
-        "id": "69622a856681fd5353474f27",
-        "name": "Frid",
-        "email": "farid@test.com",
-        "role": "user"
-    }
+
 }
 créer voiture :
 POST http://localhost:3000/cars
@@ -104,8 +75,8 @@ npm run dev
 
 
 Voici l’ordre que je te propose (logique, pro, sans casser l’existant)
-OneDrive\Bureau\SeFormer\maitriseMumerique\car-marketplace\backend
-cd OneDrive\Bureau\SeFormer\maitriseMumerique\car-marketplace\frotend
+cd OneDrive\Bureau\SeFormer\maitriseMumerique\car-marketplace\backend
+cd OneDrive\Bureau\SeFormer\maitriseMumerique\car-marketplace\frontend
 http://localhost:5173/
 à suivre ..recommencer Sprint 19.1
 
@@ -123,3 +94,6 @@ Ne jamais utiliser ton vrai mot de passe Gmail
 en mode entreprise : micro-sprints, objectif unique, zéro régression, validation stricte.
 
 Critères de validation STRICTS -  Micro-Sprint 21.5.2 validé
+
+merci, je reprends à partir du point 4 (la réponse précédente a été coupée).
+ 

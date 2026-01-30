@@ -8,6 +8,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import PublicRoute from './components/PublicRoute';
 import CarDetail from './pages/CarDetail';
 import MyMessages from './pages/MyMessages';
+import MySentMessages from './pages/MySentMessages';
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/cars/:id" element={<CarDetail />} />
         <Route path="/messages" element={<MyMessages />} />
+        <Route path="/my-sent-messages" element={<MySentMessages />} />
 
       </Routes>
     </BrowserRouter>
