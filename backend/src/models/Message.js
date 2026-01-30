@@ -24,6 +24,12 @@ const messageSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    reply: {
+     type: String,
+   },
+     repliedAt: {
+    type: Date,
+   },
   },
   { timestamps: true }
 );

@@ -104,7 +104,8 @@ npm run dev
 
 
 Voici l’ordre que je te propose (logique, pro, sans casser l’existant)
-OneDrive\Bureau\SeFormer\maitriseMumerique\car-marketplace\backend>
+OneDrive\Bureau\SeFormer\maitriseMumerique\car-marketplace\backend
+cd OneDrive\Bureau\SeFormer\maitriseMumerique\car-marketplace\frotend
 http://localhost:5173/
 à suivre ..recommencer Sprint 19.1
 

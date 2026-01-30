@@ -65,10 +65,65 @@ const markMessageAsRead = async (req, res) => {
     res.status(500).json({ message: 'Erreur serveur' });
   }
 };
+const replyToMessage = async (req, res) => {
+  try {
+    const messageId = req.params.id;
+    const { reply } = req.body;
+
+    if (!reply || reply.trim() === '') {
+      return res.status(400).json({ message: 'Réponse requise' });
+    }
+
+    const message = await Message.findById(messageId).populate('car');
+
+    if (!message) {
+      return res.status(404).json({ message: 'Message introuvable' });
+    }
+
+    // 🔐 Sécurité : seul le vendeur peut répondre
+    if (message.seller.toString() !== req.user.id) {
+      return res.status(403).json({ message: 'Action non autorisée' });
+    }
+
+    message.reply = reply;
+    message.repliedAt = new Date();
+    message.isRead = true;
+
+    await message.save();
+
+    res.status(200).json({
+      message: 'Réponse envoyée avec succès',
+      reply: message.reply,
+      repliedAt: message.repliedAt,
+    });
+  } catch (error) {
+    console.error('REPLY MESSAGE ERROR:', error);
+    res.status(500).json({ message: 'Erreur serveur' });
+  }
+};
+//
+const getMySentMessages = async (req, res) => {
+  try {
+    const userEmail = req.user.email;
+
+    const messages = await Message.find({ senderEmail: userEmail })
+      .populate('car', 'brand model')
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({ messages });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Erreur serveur' });
+  }
+};
+
 
 
 module.exports = {
   getMyMessages,
   deleteMessage,
   markMessageAsRead,
+  replyToMessage,
+  replyToMessage,
+  getMySentMessages,
 };
